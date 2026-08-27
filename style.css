@@ -1,0 +1,993 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --background: #050b14;
+    --background-2: #091321;
+
+    --card: #0b1523;
+    --card-2: #0d1929;
+
+    --border: #1d2d42;
+    --border-light: #263950;
+
+    --text: #f4f7fb;
+    --muted: #8492a5;
+    --muted-2: #66758a;
+
+    --blue: #4d8dff;
+    --blue-soft: rgba(77, 141, 255, 0.13);
+
+    --green: #35df88;
+    --orange: #ffb347;
+    --purple: #a980ff;
+    --red: #ff5b61;
+
+    --radius: 14px;
+}
+
+body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 50% -20%,
+            #14243b 0%,
+            var(--background) 48%
+        );
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    padding: 14px 18px;
+
+    overflow-x: hidden;
+}
+
+.dashboard {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 10px;
+
+    height: 53px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    display: grid;
+    place-items: center;
+
+    width: 34px;
+    height: 34px;
+
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+
+    color: var(--blue);
+
+    font-size: 23px;
+
+    flex-shrink: 0;
+}
+
+.header h1 {
+    font-size: 21px;
+    font-weight: 650;
+    letter-spacing: -0.5px;
+}
+
+.header p {
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.live-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 7px 11px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.live-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 9px rgba(53, 223, 136, 0.8);
+}
+
+
+/* ==========================================
+   CARDS
+========================================== */
+
+.card,
+.clock-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(13, 25, 41, 0.96),
+            rgba(8, 17, 29, 0.96)
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+
+/* ==========================================
+   CLOCK GRID
+========================================== */
+
+/*
+    IMPORTANT:
+
+    The clock area is deliberately locked to
+    TWO equal rectangles.
+
+    We do NOT let the browser decide whether
+    they should become giant vertical cards.
+*/
+
+.clocks {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    grid-template-rows: 180px;
+
+    gap: 10px;
+
+    width: 100%;
+
+    align-items: stretch;
+}
+
+
+/* ==========================================
+   CLOCK CARD
+========================================== */
+
+.clock-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: 100%;
+    height: 180px;
+    min-width: 0;
+    min-height: 180px;
+    max-height: 180px;
+
+    padding: 10px 14px;
+
+    overflow: hidden;
+}
+
+
+/* ==========================================
+   ANALOG CLOCK
+========================================== */
+
+.analog-clock {
+    --clock-size: 145px;
+
+    position: relative;
+
+    flex: 0 0 145px;
+
+    width: 145px;
+    height: 145px;
+
+    min-width: 145px;
+    min-height: 145px;
+
+    border: 2px solid #40536c;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #0b1422 0%,
+            #07101c 70%
+        );
+
+    box-shadow:
+        inset 0 0 25px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(0, 0, 0, 0.2);
+
+    overflow: visible;
+}
+
+
+/* ==========================================
+   CLOCK TICKS
+========================================== */
+
+.clock-tick {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 2px;
+    height: 6px;
+
+    margin-left: -1px;
+    margin-top: -63.8px;
+
+    background: #68788e;
+
+    transform-origin:
+        50% 63.8px;
+
+    pointer-events: none;
+}
+
+.clock-tick.major {
+    width: 3px;
+    height: 9px;
+
+    margin-left: -1.5px;
+
+    background: #aab5c4;
+}
+
+
+/* ==========================================
+   CLOCK NUMBERS
+========================================== */
+
+.clock-number {
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    margin-left: -11px;
+    margin-top: -11px;
+
+    display: grid;
+    place-items: center;
+
+    color: #edf2f8;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    z-index: 2;
+}
+
+
+/* ==========================================
+   CLOCK HANDS
+========================================== */
+
+.clock-hand {
+    position: absolute;
+
+    left: 50%;
+    bottom: 50%;
+
+    transform-origin: 50% 100%;
+
+    border-radius: 999px;
+
+    z-index: 3;
+}
+
+.hour-hand {
+    width: 6px;
+    height: 39px;
+
+    margin-left: -3px;
+
+    background: #f2f5fa;
+}
+
+.minute-hand {
+    width: 4px;
+    height: 54px;
+
+    margin-left: -2px;
+
+    background: #f2f5fa;
+}
+
+.second-hand {
+    width: 2px;
+    height: 59px;
+
+    margin-left: -1px;
+
+    background: var(--blue);
+}
+
+.clock-center {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 10px;
+    height: 10px;
+
+    transform: translate(-50%, -50%);
+
+    border: 2px solid var(--blue);
+
+    border-radius: 50%;
+
+    background: #dce8ff;
+
+    z-index: 5;
+}
+
+
+/* ==========================================
+   CLOCK INFORMATION
+========================================== */
+
+.clock-info {
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    padding-left: 14px;
+
+    overflow: hidden;
+}
+
+.clock-location {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    min-width: 0;
+}
+
+.clock-flag {
+    font-size: 24px;
+
+    flex-shrink: 0;
+}
+
+.clock-name {
+    font-size: 15px;
+    font-weight: 650;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clock-zone {
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clock-time {
+    margin-top: 18px;
+
+    font-size: 29px;
+    font-weight: 550;
+
+    letter-spacing: -1px;
+
+    white-space: nowrap;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.clock-period {
+    margin-left: 4px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.clock-date {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    white-space: nowrap;
+}
+
+
+/* ==========================================
+   WORKDAY
+========================================== */
+
+.workday {
+    margin-top: 10px;
+
+    padding: 14px;
+}
+
+.workday-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workday-title {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.workday-icon {
+    display: grid;
+    place-items: center;
+
+    width: 34px;
+    height: 34px;
+
+    color: var(--blue);
+
+    font-size: 20px;
+}
+
+.workday-title h2 {
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.workday-title p {
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.time-remaining {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.time-remaining > span:first-child {
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+}
+
+.time-remaining strong {
+    color: var(--green);
+
+    font-size: 21px;
+    font-weight: 650;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.remaining-icon {
+    color: var(--green);
+
+    font-size: 19px;
+}
+
+
+/* ==========================================
+   PROGRESS
+========================================== */
+
+.progress-section {
+    margin-top: 12px;
+}
+
+.progress-labels {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr;
+
+    margin-bottom: 8px;
+}
+
+.progress-labels > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.progress-labels strong {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.progress-labels span {
+    margin-top: 2px;
+
+    color: var(--muted-2);
+
+    font-size: 9px;
+}
+
+.progress-current {
+    align-items: center;
+}
+
+.progress-current strong {
+    color: var(--blue);
+}
+
+.progress-end {
+    align-items: flex-end;
+}
+
+
+/* ==========================================
+   PROGRESS BAR
+========================================== */
+
+.progress-track {
+    position: relative;
+
+    height: 8px;
+
+    background: #273445;
+
+    border-radius: 999px;
+}
+
+.progress-bar {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 0%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3f83ff,
+            #5e9bff
+        );
+
+    transition: width 0.5s linear;
+}
+
+.progress-marker {
+    position: absolute;
+
+    top: 50%;
+    left: 0%;
+
+    width: 17px;
+    height: 17px;
+
+    transform: translate(-50%, -50%);
+
+    border: 3px solid #e9f1ff;
+
+    border-radius: 50%;
+
+    background: #dfeaff;
+
+    box-shadow:
+        0 0 12px rgba(77, 141, 255, 0.8);
+
+    transition: left 0.5s linear;
+}
+
+.progress-percentage {
+    margin-top: 7px;
+
+    text-align: center;
+
+    color: var(--blue);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   WORKDAY STATS
+========================================== */
+
+.workday-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    margin-top: 10px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    min-width: 0;
+
+    padding: 9px 10px;
+}
+
+.stat + .stat {
+    border-left: 1px solid var(--border);
+}
+
+.stat-icon {
+    flex: 0 0 auto;
+
+    font-size: 17px;
+}
+
+.stat-icon.blue {
+    color: var(--blue);
+}
+
+.stat-icon.green {
+    color: var(--green);
+}
+
+.stat-icon.orange {
+    color: var(--orange);
+}
+
+.stat-icon.purple {
+    color: var(--purple);
+}
+
+.stat-icon.red {
+    color: var(--red);
+}
+
+.stat span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 7px;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+}
+
+.stat strong {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 12px;
+
+    font-variant-numeric: tabular-nums;
+
+    white-space: nowrap;
+}
+
+
+/* ==========================================
+   TIMELINE
+========================================== */
+
+.timeline {
+    margin-top: 10px;
+
+    padding: 12px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 10px;
+}
+
+.section-title-icon {
+    color: var(--blue);
+
+    font-size: 18px;
+}
+
+.section-title h2 {
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.section-title p {
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+.timeline-wrapper {
+    overflow-x: auto;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+}
+
+#timelineTable {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 9px;
+
+    font-variant-numeric: tabular-nums;
+}
+
+#timelineTable th,
+#timelineTable td {
+    height: 34px;
+
+    padding: 6px 9px;
+
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+#timelineTable th {
+    color: #d6dce6;
+
+    font-weight: 600;
+}
+
+#timelineTable tr:last-child td {
+    border-bottom: none;
+}
+
+#timelineTable th:last-child,
+#timelineTable td:last-child {
+    border-right: none;
+}
+
+#timelineTable th:first-child,
+#timelineTable td:first-child {
+    min-width: 145px;
+
+    position: sticky;
+    left: 0;
+
+    background: #0b1523;
+
+    text-align: left;
+
+    font-weight: 650;
+
+    z-index: 2;
+}
+
+.location-india {
+    color: var(--green) !important;
+}
+
+.location-nc {
+    color: var(--blue) !important;
+}
+
+.remaining-row td {
+    color: var(--purple);
+
+    font-weight: 600;
+}
+
+.current-cell {
+    color: var(--green) !important;
+
+    background:
+        rgba(77, 141, 255, 0.10);
+
+    box-shadow:
+        inset 0 0 0 1px var(--blue);
+}
+
+.timeline-note {
+    margin-top: 6px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+footer {
+    margin-top: 6px;
+
+    text-align: center;
+
+    color: var(--muted-2);
+
+    font-size: 8px;
+}
+
+
+/* ==========================================
+   ONLY REALLY NARROW SCREENS
+========================================== */
+
+/*
+    The clocks stay side-by-side until the
+    viewport is genuinely narrow.
+
+    This is intentionally NOT 900px.
+*/
+
+@media (max-width: 700px) {
+
+    .clocks {
+        grid-template-columns: 1fr;
+
+        grid-template-rows:
+            repeat(2, 180px);
+    }
+
+    .clock-card {
+        width: 100%;
+    }
+
+    .workday-stats {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+    .stat:nth-child(4) {
+        border-left: none;
+    }
+}
+
+
+/* ==========================================
+   VERY SMALL MOBILE
+========================================== */
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .header {
+        height: auto;
+
+        margin-bottom: 10px;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .live-status {
+        display: none;
+    }
+
+    .clock-card {
+        padding: 8px 10px;
+    }
+
+    .analog-clock {
+        flex-basis: 130px;
+
+        width: 130px;
+        height: 130px;
+
+        min-width: 130px;
+        min-height: 130px;
+    }
+
+    .clock-tick {
+        margin-top: -57px;
+
+        transform-origin:
+            50% 57px;
+    }
+
+    .clock-time {
+        font-size: 25px;
+    }
+
+    .clock-name {
+        font-size: 14px;
+    }
+
+    .workday-stats {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .stat + .stat {
+        border-left: none;
+    }
+}
